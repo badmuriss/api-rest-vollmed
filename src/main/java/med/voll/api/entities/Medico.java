@@ -1,4 +1,4 @@
-package med.voll.api.medico;
+package med.voll.api.entities;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -12,7 +12,8 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import med.voll.api.endereco.Endereco;
+import med.voll.api.entities.enums.Especialidade;
+import med.voll.api.entities.records.DadosCadastroMedico;
 
 @Entity(name = "Medico")
 @Table(name = "medicos")
@@ -22,10 +23,11 @@ import med.voll.api.endereco.Endereco;
 @EqualsAndHashCode(of = "id")
 public class Medico {
 
-	public Medico(DadosRegistroMedico dados) {
+	public Medico(DadosCadastroMedico dados) {
 		this.nome = dados.nome();
 		this.email = dados.email();
 		this.crm = dados.crm();
+		this.telefone = dados.telefone();
 		this.especialidade = dados.especialidade();
 		this.endereco = new Endereco(dados.endereco());
 	}
@@ -35,6 +37,7 @@ public class Medico {
 	
 	private String nome;
 	private String email;
+	private String telefone;
 	private String crm;
 	
 	@Enumerated(EnumType.STRING)
@@ -42,6 +45,5 @@ public class Medico {
 	
 	@Embedded
 	private Endereco endereco;
-	
 	
 }
