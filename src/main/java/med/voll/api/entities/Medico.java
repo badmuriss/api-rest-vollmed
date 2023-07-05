@@ -8,12 +8,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import med.voll.api.entities.enums.Especialidade;
-import med.voll.api.entities.records.DadosCadastroMedico;
+import med.voll.api.entities.records.endereco.DadosEndereco;
+import med.voll.api.entities.records.medico.DadosAtualizacaoMedico;
+import med.voll.api.entities.records.medico.DadosCadastroMedico;
 
 @Entity(name = "Medico")
 @Table(name = "medicos")
@@ -39,11 +42,37 @@ public class Medico {
 	private String email;
 	private String telefone;
 	private String crm;
+	private Boolean ativo = true;
 	
 	@Enumerated(EnumType.STRING)
 	private Especialidade especialidade;
 	
 	@Embedded
 	private Endereco endereco;
+	
+	public void atualizarInformacoes(@Valid DadosAtualizacaoMedico dados) {
+
+		String nome = dados.nome();
+		String telefone = dados.telefone();
+		DadosEndereco endereco = dados.endereco();
+		
+		if(nome != null && !nome.isBlank() && nome != this.nome) {
+			this.nome = nome;
+		}
+		if(telefone != null && !telefone.isBlank() && telefone != this.telefone) {
+			this.telefone = telefone;
+		}
+		if(endereco != null) {
+			this.endereco.atualizarInformacoes(endereco);
+		}
+	}
+	
+	public void desativarConta() {
+		if(ativo = true) {
+			this.ativo = false;
+		} else {
+			throw new IllegalArgumentException("A conta de id" + id + "já esta desativada!");
+		}
+	}
 	
 }

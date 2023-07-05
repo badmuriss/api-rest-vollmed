@@ -1,10 +1,11 @@
-package med.voll.api.entities.records;
+package med.voll.api.entities.records.medico;
 
 import med.voll.api.entities.Medico;
 import med.voll.api.entities.enums.Especialidade;
 
 public record DadosListagemMedico (
 	
+		Long id,
 		String nome, 
 		String email, 
 		String crm, 
@@ -13,7 +14,7 @@ public record DadosListagemMedico (
 		) {
 	
 	public DadosListagemMedico(Medico medico) {
-		this(medico.getNome(), medico.getEmail(),medico.getCrm(), medico.getEspecialidade());
+		this(medico.getId() ,medico.getNome(), medico.getEmail(),medico.getCrm(), medico.getEspecialidade());
 	}
 	
 }

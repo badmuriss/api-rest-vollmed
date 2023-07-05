@@ -1,8 +1,9 @@
-package med.voll.api.entities.records;
+package med.voll.api.entities.records.medico;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import med.voll.api.entities.enums.Especialidade;
+import med.voll.api.entities.records.endereco.DadosEndereco;
 
 public record DadosCadastroMedico(
 		
@@ -14,6 +15,7 @@ public record DadosCadastroMedico(
 		String email, 
 		
 		@NotBlank
+		@Pattern(regexp = "\\d{11}")
 		String telefone,
 		
 		@NotBlank

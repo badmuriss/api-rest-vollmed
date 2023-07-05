@@ -1,7 +1,9 @@
-package med.voll.api.entities.records;
+package med.voll.api.entities.records.paciente;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+import med.voll.api.entities.records.endereco.DadosEndereco;
+
 import org.hibernate.validator.constraints.br.*;
 
 public record DadosCadastroPaciente(
@@ -18,7 +20,7 @@ public record DadosCadastroPaciente(
 		String email, 
 		
 		@NotBlank
-		@CPF
+		@Pattern(regexp = "^\\d{3}\\.?\\d{3}\\.?\\d{3}\\-?\\d{2}$")
 		String cpf, 
 		
 		@NotNull
