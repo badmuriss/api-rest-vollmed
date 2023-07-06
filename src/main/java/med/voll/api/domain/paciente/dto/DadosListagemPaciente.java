@@ -1,6 +1,6 @@
-package med.voll.api.entities.records.paciente;
+package med.voll.api.domain.paciente.dto;
 
-import med.voll.api.entities.Paciente;
+import med.voll.api.domain.paciente.Paciente;
 
 public record DadosListagemPaciente (
 	

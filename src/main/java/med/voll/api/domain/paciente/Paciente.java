@@ -1,9 +1,7 @@
-package med.voll.api.entities;
+package med.voll.api.domain.paciente;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,44 +11,39 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import med.voll.api.entities.enums.Especialidade;
-import med.voll.api.entities.records.endereco.DadosEndereco;
-import med.voll.api.entities.records.medico.DadosAtualizacaoMedico;
-import med.voll.api.entities.records.medico.DadosCadastroMedico;
+import med.voll.api.domain.endereco.Endereco;
+import med.voll.api.domain.endereco.dto.DadosEndereco;
+import med.voll.api.domain.medico.dto.DadosAtualizacaoPaciente;
+import med.voll.api.domain.paciente.dto.DadosCadastroPaciente;
 
-@Entity(name = "Medico")
-@Table(name = "medicos")
+@Entity(name = "Paciente")
+@Table(name = "pacientes")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Medico {
+public class Paciente {
 
-	public Medico(DadosCadastroMedico dados) {
+	public Paciente(DadosCadastroPaciente dados) {
 		this.nome = dados.nome();
 		this.email = dados.email();
-		this.crm = dados.crm();
 		this.telefone = dados.telefone();
-		this.especialidade = dados.especialidade();
+		this.cpf = dados.cpf();
 		this.endereco = new Endereco(dados.endereco());
 	}
-
+	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
 	private String nome;
-	private String email;
 	private String telefone;
-	private String crm;
+	private String email;
+	private String cpf;
 	private Boolean ativo = true;
-	
-	@Enumerated(EnumType.STRING)
-	private Especialidade especialidade;
 	
 	@Embedded
 	private Endereco endereco;
-	
-	public void atualizarInformacoes(@Valid DadosAtualizacaoMedico dados) {
+
+	public void atualizarInformacoes(@Valid DadosAtualizacaoPaciente dados) {
 
 		String nome = dados.nome();
 		String telefone = dados.telefone();
@@ -68,11 +61,7 @@ public class Medico {
 	}
 	
 	public void desativarConta() {
-		if(ativo = true) {
-			this.ativo = false;
-		} else {
-			throw new IllegalArgumentException("A conta de id" + id + "já esta desativada!");
-		}
+		this.ativo = false;
 	}
 	
 }

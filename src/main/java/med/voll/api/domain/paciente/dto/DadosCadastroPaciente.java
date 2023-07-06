@@ -1,10 +1,11 @@
-package med.voll.api.entities.records.paciente;
+package med.voll.api.domain.paciente.dto;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
-import med.voll.api.entities.records.endereco.DadosEndereco;
-
-import org.hibernate.validator.constraints.br.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import med.voll.api.domain.endereco.dto.DadosEndereco;
 
 public record DadosCadastroPaciente(
 		

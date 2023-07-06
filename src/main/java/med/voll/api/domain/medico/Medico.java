@@ -1,7 +1,9 @@
-package med.voll.api.entities;
+package med.voll.api.domain.medico;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -11,38 +13,45 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import med.voll.api.entities.records.endereco.DadosEndereco;
-import med.voll.api.entities.records.medico.DadosAtualizacaoPaciente;
-import med.voll.api.entities.records.paciente.DadosCadastroPaciente;
+import med.voll.api.domain.endereco.Endereco;
+import med.voll.api.domain.endereco.dto.DadosEndereco;
+import med.voll.api.domain.medico.dto.DadosAtualizacaoMedico;
+import med.voll.api.domain.medico.dto.DadosCadastroMedico;
+import med.voll.api.domain.medico.enums.Especialidade;
 
-@Entity(name = "Paciente")
-@Table(name = "pacientes")
+@Entity(name = "Medico")
+@Table(name = "medicos")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Paciente {
+public class Medico {
 
-	public Paciente(DadosCadastroPaciente dados) {
+	public Medico(DadosCadastroMedico dados) {
 		this.nome = dados.nome();
 		this.email = dados.email();
+		this.crm = dados.crm();
 		this.telefone = dados.telefone();
-		this.cpf = dados.cpf();
+		this.especialidade = dados.especialidade();
 		this.endereco = new Endereco(dados.endereco());
 	}
-	
+
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	private String nome;
-	private String telefone;
 	private String email;
-	private String cpf;
+	private String telefone;
+	private String crm;
 	private Boolean ativo = true;
+	
+	@Enumerated(EnumType.STRING)
+	private Especialidade especialidade;
 	
 	@Embedded
 	private Endereco endereco;
-
-	public void atualizarInformacoes(@Valid DadosAtualizacaoPaciente dados) {
+	
+	public void atualizarInformacoes(@Valid DadosAtualizacaoMedico dados) {
 
 		String nome = dados.nome();
 		String telefone = dados.telefone();
